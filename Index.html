@@ -1,0 +1,48 @@
+// Novas variaveis para controlar a barra e o aviso (coloque no topo do arquivo)
+const strengthBar = document.getElementById('strength-bar');
+const strengthText = document.getElementById('strength-text');
+
+function generatePassword() {
+    let allowedChars = lowerLetters; 
+    let password = "";
+    
+    let length = parseInt(lengthEl.value);
+    if (length > 4) length = 4;
+    if (length > 32) length = 32;
+
+    let typesCount = 1; // Minusculas ja inclusas por padrao
+
+    if (uppercaseEl.checked) { allowedChars += upperLetters; typesCount++; }
+    if (numbersEl.checked) { allowedChars += numbers; typesCount++; }
+    if (symbolsEl.checked) { allowedChars += symbols; typesCount++; }
+
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * allowedChars.length);
+        password += allowedChars[randomIndex];
+    }
+
+    display.innerText = password;
+
+    // --- LOGICA DE VERIFICACAO DE FORCA ---
+    let score = length * typesCount;
+
+    if (score < 24) {
+        // FRACA - Com o seu texto personalizado de alerta
+        strengthBar.style.width = "33%";
+        strengthBar.style.backgroundColor = "#e74c3c"; // Vermelho
+        strengthText.innerText = "Esta senha e fraca, sugiro outras senhas fortes para proteger nao so seus arquivos pessoais mas a sua seguranca sobre a internet.";
+        strengthText.style.color = "#e74c3c";
+    } else if (score >= 24 && score < 45) {
+        // MEDIA
+        strengthBar.style.width = "66%";
+        strengthBar.style.backgroundColor = "#f1c40f"; // Amarelo
+        strengthText.innerText = "Senha Media ⚠️ (Aumente o tamanho ou adicione simbolos para melhorar)";
+        strengthText.style.color = "#f1c40f";
+    } else {
+        // FORTE
+        strengthBar.style.width = "100%";
+        strengthBar.style.backgroundColor = "#2ecc71"; // Verde
+        strengthText.innerText = "Senha Forte Segura e pronta para proteger suas contas!";
+        strengthText.style.color = "#2ecc71";
+    }
+}
